@@ -1,7 +1,6 @@
 using TechTalk.SpecFlow;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using MyAppAutomation.Pages;
+using MyAppAutomation.Utilities;
 using NUnit.Framework;
 
 namespace MyAppAutomation.StepDefinitions
@@ -9,15 +8,13 @@ namespace MyAppAutomation.StepDefinitions
     [Binding]
     public class UserCreationSteps
     {
-        private IWebDriver _driver;
         private UserCreationPage _userPage;
 
         [Given(@"I navigate to the user creation page")]
         public void GivenINavigateToTheUserCreationPage()
         {
-            _driver = new ChromeDriver();
-            _driver.Navigate().GoToUrl("http://localhost:5000/createUser");
-            _userPage = new UserCreationPage(_driver);
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/createUser");
+            _userPage = new UserCreationPage(Hooks.Driver);
         }
 
         [When(@"I enter name ""(.*)""")]
@@ -42,7 +39,12 @@ namespace MyAppAutomation.StepDefinitions
         public void ThenTheUserShouldBeCreatedSuccessfully()
         {
             Assert.IsTrue(_userPage.IsSuccessDisplayed());
-            _driver.Quit();
+        }
+
+        [Then(@"the user creation should fail")]
+        public void ThenTheUserCreationShouldFail()
+        {
+            Assert.IsTrue(_userPage.IsErrorDisplayed());
         }
     }
 }

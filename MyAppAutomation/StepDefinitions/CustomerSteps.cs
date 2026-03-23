@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using OrderManagementAutomation.Pages;
+using MyAppAutomation.Utilities;
 
 namespace OrderManagementAutomation.StepDefinitions
 {
@@ -12,7 +13,7 @@ namespace OrderManagementAutomation.StepDefinitions
         [Given(@"I navigate to the customer page")]
         public void GivenINavigateToTheCustomerPage()
         {
-            Hooks.Driver.Navigate().GoToUrl("http://localhost:5000/customers");
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/customers");
             _customerPage = new CustomerPage(Hooks.Driver);
         }
 
@@ -31,6 +32,27 @@ namespace OrderManagementAutomation.StepDefinitions
         public void ThenTheCustomerShouldBeRegisteredSuccessfully()
         {
             Assert.IsTrue(_customerPage.IsSuccessDisplayed());
+        }
+
+        [Then(@"the customer registration should fail")]
+        public void ThenTheCustomerRegistrationShouldFail()
+        {
+            Assert.IsTrue(_customerPage.IsErrorDisplayed());
+        }
+
+        [Then(@"the customer list should be displayed")]
+        public void ThenTheCustomerListShouldBeDisplayed()
+        {
+            Assert.IsTrue(_customerPage.IsCustomerListDisplayed());
+        }
+
+        [When(@"I search for customer by id ""(.*)""")]
+        public void WhenISearchForCustomerById(string id) => _customerPage.SearchCustomerById(id);
+
+        [Then(@"the customer details should be displayed")]
+        public void ThenTheCustomerDetailsShouldBeDisplayed()
+        {
+            Assert.IsTrue(_customerPage.IsCustomerDetailsDisplayed());
         }
     }
 }

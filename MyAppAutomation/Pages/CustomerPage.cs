@@ -17,6 +17,37 @@ namespace OrderManagementAutomation.Pages
         public void EnterName(string name) => Name.SendKeys(name);
         public void EnterEmail(string email) => Email.SendKeys(email);
         public void ClickRegister() => RegisterButton.Click();
-        public bool IsSuccessDisplayed() => SuccessMessage.Displayed;
+
+        public bool IsSuccessDisplayed()
+        {
+            try { return SuccessMessage.Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsErrorDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("errorMsg")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsCustomerListDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("customerList")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public void SearchCustomerById(string id)
+        {
+            var searchInput = _driver.FindElement(By.Id("searchCustomerId"));
+            searchInput.Clear();
+            searchInput.SendKeys(id);
+            _driver.FindElement(By.Id("searchCustomerBtn")).Click();
+        }
+
+        public bool IsCustomerDetailsDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("customerDetails")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
     }
 }

@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using OrderManagementAutomation.Pages;
+using MyAppAutomation.Utilities;
 
 namespace OrderManagementAutomation.StepDefinitions
 {
@@ -12,7 +13,7 @@ namespace OrderManagementAutomation.StepDefinitions
         [Given(@"I navigate to the order page")]
         public void GivenINavigateToTheOrderPage()
         {
-            Hooks.Driver.Navigate().GoToUrl("http://localhost:5000/orders");
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/orders");
             _orderPage = new OrderPage(Hooks.Driver);
         }
 
@@ -33,6 +34,27 @@ namespace OrderManagementAutomation.StepDefinitions
         public void ThenTheOrderShouldBePlacedSuccessfully()
         {
             Assert.IsTrue(_orderPage.IsSuccessDisplayed());
+        }
+
+        [Then(@"the order should fail")]
+        public void ThenTheOrderShouldFail()
+        {
+            Assert.IsTrue(_orderPage.IsErrorDisplayed());
+        }
+
+        [Then(@"the order list should be displayed")]
+        public void ThenTheOrderListShouldBeDisplayed()
+        {
+            Assert.IsTrue(_orderPage.IsOrderListDisplayed());
+        }
+
+        [When(@"I search for order by id ""(.*)""")]
+        public void WhenISearchForOrderById(string id) => _orderPage.SearchOrderById(id);
+
+        [Then(@"the order details should be displayed")]
+        public void ThenTheOrderDetailsShouldBeDisplayed()
+        {
+            Assert.IsTrue(_orderPage.IsOrderDetailsDisplayed());
         }
     }
 }

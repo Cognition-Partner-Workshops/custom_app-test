@@ -19,6 +19,31 @@ namespace LibraryAppAutomation.Pages
         public void ClickAddBook() => AddButton.Click();
         public void ClickBorrowBook(string title) => BorrowButton(title).Click();
         public void ClickReturnBook(string title) => ReturnButton(title).Click();
-        public bool IsSuccessDisplayed() => SuccessMessage.Displayed;
+
+        public bool IsSuccessDisplayed()
+        {
+            try { return SuccessMessage.Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsErrorDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("errorMsg")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsBookListDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("bookList")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public void SearchBook(string title)
+        {
+            var searchInput = _driver.FindElement(By.Id("searchBook"));
+            searchInput.Clear();
+            searchInput.SendKeys(title);
+            _driver.FindElement(By.Id("searchBookBtn")).Click();
+        }
     }
 }

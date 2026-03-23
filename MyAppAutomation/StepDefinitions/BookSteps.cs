@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using LibraryAppAutomation.Pages;
+using MyAppAutomation.Utilities;
 
 namespace LibraryAppAutomation.StepDefinitions
 {
@@ -12,7 +13,7 @@ namespace LibraryAppAutomation.StepDefinitions
         [Given(@"I navigate to the book management page")]
         public void GivenINavigateToTheBookManagementPage()
         {
-            Hooks.Driver.Navigate().GoToUrl("http://localhost:5000/books");
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/books");
             _bookPage = new BookPage(Hooks.Driver);
         }
 
@@ -49,5 +50,20 @@ namespace LibraryAppAutomation.StepDefinitions
         {
             Assert.IsTrue(_bookPage.IsSuccessDisplayed());
         }
+
+        [Then(@"I should see a book error message")]
+        public void ThenIShouldSeeABookErrorMessage()
+        {
+            Assert.IsTrue(_bookPage.IsErrorDisplayed());
+        }
+
+        [Then(@"the book list should be displayed")]
+        public void ThenTheBookListShouldBeDisplayed()
+        {
+            Assert.IsTrue(_bookPage.IsBookListDisplayed());
+        }
+
+        [When(@"I search for book ""(.*)""")]
+        public void WhenISearchForBook(string title) => _bookPage.SearchBook(title);
     }
 }

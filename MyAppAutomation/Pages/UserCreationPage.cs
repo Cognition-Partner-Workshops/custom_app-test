@@ -25,6 +25,17 @@ namespace MyAppAutomation.Pages
         public void EnterOccupation(string occupation) => Occupation.SendKeys(occupation);
         public void SelectGender(string gender) => Gender.SendKeys(gender);
         public void ClickCreate() => CreateButton.Click();
-        public bool IsSuccessDisplayed() => SuccessMessage.Displayed;
+
+        public bool IsSuccessDisplayed()
+        {
+            try { return SuccessMessage.Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsErrorDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("errorMsg")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
     }
 }
