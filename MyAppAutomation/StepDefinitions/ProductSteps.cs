@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using OrderManagementAutomation.Pages;
+using MyAppAutomation.Utilities;
 
 namespace OrderManagementAutomation.StepDefinitions
 {
@@ -12,7 +13,7 @@ namespace OrderManagementAutomation.StepDefinitions
         [Given(@"I navigate to the product page")]
         public void GivenINavigateToTheProductPage()
         {
-            Hooks.Driver.Navigate().GoToUrl("http://localhost:5000/products");
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/products");
             _productPage = new ProductPage(Hooks.Driver);
         }
 
@@ -31,6 +32,27 @@ namespace OrderManagementAutomation.StepDefinitions
         public void ThenTheProductShouldBeAddedSuccessfully()
         {
             Assert.IsTrue(_productPage.IsSuccessDisplayed());
+        }
+
+        [Then(@"the product addition should fail")]
+        public void ThenTheProductAdditionShouldFail()
+        {
+            Assert.IsTrue(_productPage.IsErrorDisplayed());
+        }
+
+        [Then(@"the product list should be displayed")]
+        public void ThenTheProductListShouldBeDisplayed()
+        {
+            Assert.IsTrue(_productPage.IsProductListDisplayed());
+        }
+
+        [When(@"I search for product by id ""(.*)""")]
+        public void WhenISearchForProductById(string id) => _productPage.SearchProductById(id);
+
+        [Then(@"the product details should be displayed")]
+        public void ThenTheProductDetailsShouldBeDisplayed()
+        {
+            Assert.IsTrue(_productPage.IsProductDetailsDisplayed());
         }
     }
 }

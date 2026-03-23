@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using LibraryAppAutomation.Pages;
+using MyAppAutomation.Utilities;
 
 namespace LibraryAppAutomation.StepDefinitions
 {
@@ -12,7 +13,7 @@ namespace LibraryAppAutomation.StepDefinitions
         [Given(@"I navigate to the member registration page")]
         public void GivenINavigateToTheMemberRegistrationPage()
         {
-            Hooks.Driver.Navigate().GoToUrl("http://localhost:5000/members");
+            Hooks.Driver.Navigate().GoToUrl($"{AppSettings.BaseUrl}/members");
             _memberPage = new MemberPage(Hooks.Driver);
         }
 
@@ -30,6 +31,21 @@ namespace LibraryAppAutomation.StepDefinitions
         public void ThenTheMemberShouldBeRegisteredSuccessfully()
         {
             Assert.IsTrue(_memberPage.IsSuccessDisplayed());
+        }
+
+        [Then(@"the member registration should fail")]
+        public void ThenTheMemberRegistrationShouldFail()
+        {
+            Assert.IsTrue(_memberPage.IsErrorDisplayed());
+        }
+
+        [When(@"I search for member by id ""(.*)""")]
+        public void WhenISearchForMemberById(string id) => _memberPage.SearchMemberById(id);
+
+        [Then(@"the member details should be displayed")]
+        public void ThenTheMemberDetailsShouldBeDisplayed()
+        {
+            Assert.IsTrue(_memberPage.IsMemberDetailsDisplayed());
         }
     }
 }

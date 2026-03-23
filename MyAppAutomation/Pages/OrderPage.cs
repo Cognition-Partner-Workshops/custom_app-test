@@ -17,6 +17,37 @@ namespace OrderManagementAutomation.Pages
         public void EnterProductId(string id) => ProductId.SendKeys(id);
         public void ClickAddProduct() => AddProductButton.Click();
         public void ClickPlaceOrder() => PlaceOrderButton.Click();
-        public bool IsSuccessDisplayed() => SuccessMessage.Displayed;
+
+        public bool IsSuccessDisplayed()
+        {
+            try { return SuccessMessage.Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsErrorDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("errorMsg")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsOrderListDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("orderList")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public void SearchOrderById(string id)
+        {
+            var searchInput = _driver.FindElement(By.Id("searchOrderId"));
+            searchInput.Clear();
+            searchInput.SendKeys(id);
+            _driver.FindElement(By.Id("searchOrderBtn")).Click();
+        }
+
+        public bool IsOrderDetailsDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("orderDetails")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
     }
 }

@@ -19,6 +19,20 @@ namespace MyAppAutomation.Pages
         public void EnterUsername(string username) => Username.SendKeys(username);
         public void EnterPassword(string password) => Password.SendKeys(password);
         public void ClickLogin() => LoginButton.Click();
-        public bool IsErrorDisplayed() => ErrorMessage.Displayed;
+
+        public bool IsErrorDisplayed()
+        {
+            try { return ErrorMessage.Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public bool IsValidationDisplayed()
+        {
+            try { return _driver.FindElement(By.Id("validationMsg")).Displayed; }
+            catch (NoSuchElementException) { return false; }
+        }
+
+        public void ClearUsername() => Username.Clear();
+        public void ClearPassword() => Password.Clear();
     }
 }
