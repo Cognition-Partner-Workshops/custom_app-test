@@ -1,3 +1,5 @@
+using System;
+
 namespace MyAppAutomation.Utilities
 {
     public static class AppSettings

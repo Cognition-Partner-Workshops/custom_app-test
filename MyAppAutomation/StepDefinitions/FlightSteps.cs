@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using FlightBookingAutomation.Pages;
+using MyAppAutomation;
 using MyAppAutomation.Utilities;
 
 namespace FlightBookingAutomation.StepDefinitions

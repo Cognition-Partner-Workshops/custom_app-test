@@ -1,6 +1,7 @@
 using TechTalk.SpecFlow;
 using NUnit.Framework;
 using DiagnosticTestAutomation.Pages;
+using MyAppAutomation;
 using MyAppAutomation.Utilities;
 
 namespace DiagnosticTestAutomation.StepDefinitions
